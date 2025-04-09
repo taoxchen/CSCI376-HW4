@@ -34,7 +34,9 @@ const questions = [
   const questionElement = document.getElementById("question");
   const answerButtonsElement = document.getElementById("answer-buttons");
   const nextButton = document.getElementById("next-btn");
+  const hintButton = document.getElementById("hint-btn"); 
   
+  let hintUsed = false; 
   let currentQuestionIndex = 0;
   let score = 0;
   
@@ -47,6 +49,7 @@ const questions = [
   
   function showQuestion() {
     resetState();
+    hintUsed =  false; 
     let currentQuestion = questions[currentQuestionIndex];
     questionElement.textContent = currentQuestion.question;
   
@@ -68,6 +71,7 @@ const questions = [
   
   function resetState() {
     nextButton.style.display = "none";
+    hintButton.style.display = "inline-block";
     answerButtonsElement.innerHTML = "";
   }
   
@@ -115,6 +119,20 @@ const questions = [
       handleNextButton();
     } else {
       startQuiz();
+    }
+
+  });
+
+  hintButton.addEventListener("click", () => {
+    if (hintUsed) return;
+  
+    const buttons = Array.from(answerButtonsElement.querySelectorAll("button"));
+    const wrongButtons = buttons.filter(btn => btn.dataset.correct !== "true" && !btn.classList.contains("wrong"));
+  
+    if (wrongButtons.length > 0) {
+      const randomIndex = Math.floor(Math.random() * wrongButtons.length);
+      wrongButtons[randomIndex].classList.add("wrong");
+      hintUsed = true;
     }
   });
   
