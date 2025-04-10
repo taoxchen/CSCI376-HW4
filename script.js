@@ -26,11 +26,20 @@ const questions = [
         { text: "Computer Style Sheets", correct: false },
         { text: "Creative Style Syntax", correct: false }
       ]
+    },
+    {
+      question: "When was Williams College founded?",
+      answers: [
+        { text: "1790", correct: false },
+        { text: "1791", correct: false },
+        { text: "1792", correct: false },
+        { text: "1793", correct: true }
+      ]
     }
   ];
   
   // 2. How do we know what id to search for when using document.getElementById()? Where are the following ids specified in index.html? 
-  // 
+  // We know what id to search for when using document.getElementById() because it references to the html file, in this case, the index.html, and searches for elements, like <div id="question">, <div id="answer-buttons">, and <button id="next-btn">, that have unique identifiers. These same IDs are referenced in the JavaScript file using document.getElementById("id-name") to access and manipulate the elements during the quiz. 
   const questionElement = document.getElementById("question");
   const answerButtonsElement = document.getElementById("answer-buttons");
   const nextButton = document.getElementById("next-btn");
@@ -55,7 +64,7 @@ const questions = [
   
     currentQuestion.answers.forEach(answer => {
       // 3. Why are these HTML elements being created dynamically in the JS file, while other page elements are defined statically in the HTML file?
-      // 
+      // The answer button are made with JS because each question has different answers, and this lets the quiz update automatically without needing to change the HTML every time. 
       const button = document.createElement("button");
       button.textContent = answer.text;
       button.classList.add("btn");
@@ -64,7 +73,7 @@ const questions = [
       }
       button.addEventListener("click", selectAnswer);
       // 4. What is the line below doing? 
-      // 
+      // This line adds the new answer button to the screen by putting it inside the answer-buttons container. Without it, the button wouldn’t show up.
       answerButtonsElement.appendChild(button);
     });
   }
@@ -92,7 +101,7 @@ const questions = [
       button.disabled = true;
     });
     // 5. Why is it important to change the display styling rule for the "Next" button to "block" here? What would happen if you did not have this line?
-    // 
+    // The "Next" button is hidden at first, and after an answer is picked, the code shows the buttton to the user can go to the next question. If we didn't show it, the user can't continue. 
     nextButton.style.display = "block";
   }
   
@@ -113,7 +122,8 @@ const questions = [
   }
   
   // 6. Summarize in your own words what you think this block of code is doing. 
-  // 
+  // When the "Next" button is clicked, the code checks if there are more questions. If there are, it shows the next one, and if not, it restarts the quiz.
+
   nextButton.addEventListener("click", () => { 
     if (currentQuestionIndex < questions.length) {
       handleNextButton();
